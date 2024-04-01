@@ -4,8 +4,7 @@ include_once('includes/header.php');
 <div class="container w-25 my-5">
     <main class="form-signin w-100 m-auto">
         <form autocomplete="off" method="post">
-            <img class="mb-4" src="assets/img/logo/logo.png" alt="logo">
-            <h5 class="mb-3">Please log in</h5>
+            <h4 class="text-center">Login</h4>
             <div class="form-floating mb-2">
                 <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" autocomplete="false">
                 <label for="email">Email address</label>
