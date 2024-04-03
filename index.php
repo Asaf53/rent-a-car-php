@@ -118,7 +118,7 @@ foreach ($cars as $key => $car) {
                                 <div class="card-text">
                                     <div class="d-flex">
                                         <span class="pe-3 border-end d-flex align-items-center justify-content-between"><i class="bx bx-user me-1"></i> <?= $car['seats'] ?> Passengers</span>
-                                        <span class="pe-3 ps-3 border-end d-flex align-items-center justify-content-between"><img src="assets/img/icon/gear.svg" class="me-1" alt="gear icon"><?= $car['gearbox'] ?></span>
+                                        <span class="pe-3 ps-3 border-end d-flex align-items-center justify-content-between"><img src="assets/img/icon/gear.svg" alt="gear icon"><?= $car['gearbox'] ?></span>
                                         <span class="ps-3 d-flex align-items-center justify-content-between"><i class='bx bx-calendar-alt me-1'></i><?= $car['year'] ?></span>
                                     </div>
                                 </div>

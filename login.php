@@ -1,9 +1,41 @@
 <?php
 include_once('includes/header.php');
+
+$login_errors = [];
+if (isset($_POST['login_btn'])) {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $login_errors[] = "Please enter a valid email address.";
+    }
+
+    if (count($login_errors) === 0) {
+        $sql = "SELECT * FROM `users` WHERE email = ?";
+        $stm = $pdo->prepare($sql);
+        if ($stm->execute([$email])) {
+            $user = $stm->fetch();
+            if (password_verify($password, $user['password'])) {
+                $_SESSION['is_loggedin'] = true;
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['email'] = $user['email'];
+                $_SESSION['fullname'] = $user['fullname'];
+                $_SESSION['role'] = $user['role'];
+                if ($user['role'] === 'admin') {
+                    header('Location: admin/index.php');
+                } else {
+                    header('Location: index.php?action=login');
+                }
+            } else {
+                $login_errors[] = "Something went wrong!!";
+            }
+        }
+    }
+}
 ?>
 <div class="container w-25 my-5">
     <main class="form-signin w-100 m-auto">
-        <form autocomplete="off" method="post">
+        <form action="<?= $_SERVER['PHP_SELF'] ?>" method="POST">
             <h4 class="text-center">Login</h4>
             <div class="form-floating mb-2">
                 <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" autocomplete="false">

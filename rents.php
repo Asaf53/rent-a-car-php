@@ -22,7 +22,7 @@ if (isset($_GET['pickupDate']) && isset($_GET['returnDate'])) {
                     <div class="d-flex align-items-center">
                         <span class="me-2"><img src="assets/img/icon/doors.svg" class="me-1" alt="door icon"><?= $car['doors'] ?></span> |
                         <span class="me-2 ms-2"><img src="assets/img/icon/seat.svg" class="me-1" alt="seat icon"><?= $car['seats'] ?></span> |
-                        <span class="me-2 ms-2"><img src="assets/img/icon/gear.svg" class="me-1" alt="gear icon"></span><?= $car['gearbox'] ?>
+                        <span class="me-2 ms-2"><img src="assets/img/icon/gear.svg" alt="gear icon"></span><?= $car['gearbox'] ?>
                     </div>
                 </div>
                 <hr class="d-md-none">
@@ -30,7 +30,10 @@ if (isset($_GET['pickupDate']) && isset($_GET['returnDate'])) {
                     <span>Price for <?= $days ?> days!</span>
                     <h4 class="m-0">€ <?= $days * $car['rental_rate'] ?></h4>
                     <span>€<?= $car['rental_rate'] ?> /day</span>
-                    <button class="btn btn-outline-dark" type="submit" value="<?= $car['id'] ?>" name="book_btn">Book Now</button>
+                    <form action="<?= $_SERVER['PHP_SELF'] ?>">
+                        <input type="hidden" name="car_id" value="<?= $car['id'] ?>">
+                        <button class="btn btn-outline-dark" type="submit" name="book_btn">Book Now</button>
+                    </form>
                 </div>
             </div>
         <?php endforeach; ?>
