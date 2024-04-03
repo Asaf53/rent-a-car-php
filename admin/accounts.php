@@ -16,7 +16,7 @@ if (isset($_POST['edit_btn'])) {
     $sql_edit_user = "UPDATE `users` SET `fullname` = ?, `email` = ?, `phone` = ?, `role` = ? WHERE id = ?";
     $stm_edit_user = $pdo->prepare($sql_edit_user);
     if ($stm_edit_user->execute([$fullname, $email, $phone, $role, $user_id])) {
-        header('Location: accounts.php?action=edit');
+        header('Location: accounts.php?action=user_edit');
     }
 }
 
@@ -25,7 +25,9 @@ if (isset($_GET['action']) && ($_GET['action'] === 'delete')) {
         $user_id = $_GET['user_id'];
         $sql_delete_user = "DELETE FROM `users` WHERE id = ?";
         $stm_delete_user = $pdo->prepare($sql_delete_user);
-        $stm_delete_user->execute([$user_id]);
+        if ($stm_delete_user->execute([$user_id])) {
+            header('Location: accounts.php?action=user_delete');
+        }
     }
 }
 
@@ -37,7 +39,25 @@ $users = $stm_users->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!-- row -->
-<div class="row tm-content-row tm-mt-big">
+<?php
+if (isset($_GET['action'])) {
+    switch ($_GET['action']) {
+        case 'user_delete':
+            $alert = 'User delete successfully';
+            break;
+        case 'user_edit':
+            $alert = 'User edit successfully';
+            break;
+    }
+}
+?>
+<?php if (isset($_GET['action'])) : ?>
+    <div class="alert alert-success mt-3" role="alert">
+        <?= $alert; ?>
+    </div>
+<?php endif; ?>
+
+<div class="row tm-content-row tm-mt-big mt-3">
     <div class="tm-col tm-col-big col-md-7 col-12">
         <div class="bg-white tm-block">
             <div class="row">
@@ -131,7 +151,7 @@ $users = $stm_users->fetchAll(PDO::FETCH_ASSOC);
             var userId = $(this).siblings('.d-none').text();
             localStorage.setItem('selectedUserId', userId);
             var itemId = localStorage.getItem('selectedUserId');
-            var url = "accounts.php?userId=" + itemId;
+            var url = "accounts.php?user_id=" + itemId;
             window.location.href = url;
         });
     });

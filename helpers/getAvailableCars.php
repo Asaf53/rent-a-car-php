@@ -13,8 +13,7 @@ function getAvailableCars($pickUpDate, $returnDate)
     SELECT rental.car_id FROM rental 
     WHERE 
     (rental.start_date BETWEEN :pickUpDate AND :returnDate) OR
-    (rental.end_date BETWEEN :pickUpDate AND :returnDate) OR
-    (rental.start_date <= :pickUpDate AND rental.end_date >= :returnDate))";
+    (rental.end_date BETWEEN :pickUpDate AND :returnDate))";
 
     // Prepare the statement
     $stmt = $pdo->prepare($sql);

@@ -18,7 +18,7 @@ if (isset($_GET['action']) && ($_GET['action'] === 'delete') && isset($_GET['typ
         $sql_delete_car = "DELETE FROM `cars` WHERE id = ?";
         $stm_delete_car = $pdo->prepare($sql_delete_car);
         if ($stm_delete_car->execute([$car_id])) {
-            header('Location: cars.php');
+            header('Location: cars.php?action=car_delete');
         }
     }
 }
@@ -28,7 +28,7 @@ if (isset($_GET['action']) && ($_GET['action'] === 'delete') && isset($_GET['typ
         $sql_delete_location = "DELETE FROM `locations` WHERE id = ?";
         $stm_delete_location = $pdo->prepare($sql_delete_location);
         if ($stm_delete_location->execute([$location_id])) {
-            header('Location: cars.php');
+            header('Location: cars.php?action=location_delete');
         }
     }
 }
@@ -37,7 +37,33 @@ if (isset($_GET['action']) && ($_GET['action'] === 'delete') && isset($_GET['typ
 
 
 <!-- row -->
-<div class="row tm-content-row tm-mt-big">
+<?php
+if (isset($_GET['action'])) {
+    switch ($_GET['action']) {
+        case 'car_delete':
+            $alert = 'Car delete successfully';
+            break;
+        case 'location_delete':
+            $alert = 'Location delete successfully';
+            break;
+        case 'car_edit':
+            $alert = 'Car edit successfully';
+            break;
+        case 'location_edit':
+            $alert = 'Location edit successfully';
+            break;
+        case 'car_images':
+            $alert = 'Car images uploaded successfully';
+            break;
+    }
+}
+?>
+<?php if (isset($_GET['action'])) : ?>
+    <div class="alert alert-success mt-3" role="alert">
+        <?= $alert; ?>
+    </div>
+<?php endif; ?>
+<div class="row tm-content-row tm-mt-big mt-3">
     <div class="col-xl-8 col-lg-12 tm-md-12 tm-sm-12 tm-col">
         <div class="bg-white tm-block h-100">
             <div class="row align-items-center justify-content-between">
@@ -87,7 +113,7 @@ if (isset($_GET['action']) && ($_GET['action'] === 'delete') && isset($_GET['typ
                 </table>
             </div>
 
-            <div class="tm-table-mt tm-table-actions-row">
+            <!-- <div class="tm-table-mt tm-table-actions-row">
                 <div class="tm-table-actions-col-right">
                     <span class="tm-pagination-label">Page</span>
                     <nav aria-label="Page navigation" class="d-inline-block">
@@ -103,7 +129,7 @@ if (isset($_GET['action']) && ($_GET['action'] === 'delete') && isset($_GET['typ
                         </ul>
                     </nav>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 

@@ -14,7 +14,7 @@ if (isset($_POST['edit_btn'])) {
     $sql_edit_location = "UPDATE `locations` SET `name` = ?, `address` = ? WHERE id = ?";
     $stm_edit_location = $pdo->prepare($sql_edit_location);
     if ($stm_edit_location->execute([$name, $address, $id])) {
-        header('Location: cars.php?action=edit&type=location');
+        header('Location: cars.php?action=location_edit');
     }
 }
 ?>
