@@ -54,7 +54,7 @@ if (isset($_GET['action']) && ($_GET['action'] === 'logout')) {
                                 <i class="bx bx-user mb-0 pb-0 h3"></i>
                             </button>
                             <ul class="dropdown-menu mb-0 pb-0">
-                                <li><a class="dropdown-item" href="#">Profile</a></li>
+                                <li><a class="dropdown-item" href="profile.php?user_id=<?= $_SESSION['user_id'] ?>">Profile</a></li>
                                 <li><a class="dropdown-item" href="?action=logout">Logout</a></li>
                             </ul>
                         </div>

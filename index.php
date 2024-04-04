@@ -8,6 +8,12 @@ $stm = $pdo->prepare($sql);
 $stm->execute();
 $cars = $stm->fetchAll(PDO::FETCH_ASSOC);
 
+$locations = [];
+$sql_location = "SELECT * FROM `locations`";
+$stm_location = $pdo->prepare($sql_location);
+$stm_location->execute();
+$locations = $stm_location->fetchAll(PDO::FETCH_ASSOC);
+
 foreach ($cars as $key => $car) {
     $carImages = [];
     $sql = "SELECT * FROM `cars_images` WHERE `car_id` = ?";
@@ -16,9 +22,27 @@ foreach ($cars as $key => $car) {
     $carImages = $stm->fetchAll(PDO::FETCH_ASSOC);
     $cars[$key]['images'] = $carImages;
 }
+
+
+if (isset($_GET['action'])) {
+    switch ($_GET['action']) {
+        case 'login':
+            $alert = 'You have successfully logged in.';
+            break;
+        case 'rental':
+            $alert = 'Your rental has been confirmed. Thank you for choosing our service.';
+            break;
+    }
+}
 ?>
 
 <!-- hero section start  -->
+<?php if (isset($_GET['action'])) : ?>
+    <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+        <?= $alert; ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php endif; ?>
 <section id="hero" class=" position-relative overflow-hidden">
     <div class="pattern-overlay pattern-right position-absolute">
         <img src="assets/img/home/hero-pattern-right.png" alt="pattern">
@@ -43,10 +67,10 @@ foreach ($cars as $key => $car) {
             <div class="col-12 col-md-6 col-lg-3 mt-4 mt-lg-0">
                 <div class="form-floating">
                     <select class="form-select rounded-0" aria-label="Default select example" name="pickupLocation" id="pickup">
-                        <option selected>Pickup</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                        <option value="" selected>Pickup</option>
+                        <?php foreach ($locations as $location) : ?>
+                            <option value="<?= $location['id'] ?>"><?= $location['name'] . " - " . $location['address'] ?></option>
+                        <?php endforeach; ?>
                     </select>
                     <label for="return">Pickup Location</label>
                 </div>
@@ -54,10 +78,10 @@ foreach ($cars as $key => $car) {
             <div class="col-12 col-md-6 col-lg-3 mt-4 mt-lg-0">
                 <div class="form-floating">
                     <select class="form-select rounded-0" aria-label="Default select example" name="returnLocation" id="return">
-                        <option selected>Return</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                        <option value="" selected>Return</option>
+                        <?php foreach ($locations as $location) : ?>
+                            <option value="<?= $location['id'] ?>"><?= $location['name'] . " - " . $location['address'] ?></option>
+                        <?php endforeach; ?>
                     </select>
                     <label for="return">Return Location</label>
                 </div>
@@ -92,14 +116,12 @@ foreach ($cars as $key => $car) {
                         <div class="card rounded-0">
                             <div id="carsCarousel<?= $car['id'] ?>" class="carousel slide">
                                 <div class="carousel-inner">
-                                    <!-- need to be removed in future -->
                                     <?php if (count($car['images']) > 0) : ?>
                                         <?php foreach ($car['images'] as $index => $image) : ?>
                                             <div class="carousel-item <?= ($index === 0) ? 'active' : '' ?>">
                                                 <img src="assets/img/cars/<?= $image['images'] ?>" class="d-block w-100" alt="cars-<?= $car['id'] ?>">
                                             </div>
                                         <?php endforeach; ?>
-                                        <!-- need to be removed in future -->
                                     <?php else : ?>
                                         <img src="assets/img/cars/noimage.jpg" class="d-block w-100" alt="cars-noimage">
                                     <?php endif; ?>

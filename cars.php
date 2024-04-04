@@ -24,11 +24,15 @@ foreach ($cars as $key => $car) {
                     <div class="card rounded-0">
                         <div id="carsCarousel<?= $car['id'] ?>" class="carousel slide">
                             <div class="carousel-inner">
-                                <?php foreach ($car['images'] as $index => $image) : ?>
-                                    <div class="carousel-item <?= ($index === 0) ? 'active' : '' ?>">
-                                        <img src="assets/img/cars/<?= $image['images'] ?>" class="d-block w-100" alt="cars-<?= $car['id'] ?>-<?= $index ?>">
-                                    </div>
-                                <?php endforeach; ?>
+                                <?php if (count($car['images']) > 0) : ?>
+                                    <?php foreach ($car['images'] as $index => $image) : ?>
+                                        <div class="carousel-item <?= ($index === 0) ? 'active' : '' ?>">
+                                            <img src="assets/img/cars/<?= $image['images'] ?>" class="d-block w-100" alt="cars-<?= $car['id'] ?>">
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php else : ?>
+                                    <img src="assets/img/cars/noimage.jpg" class="d-block w-100" alt="cars-noimage">
+                                <?php endif; ?>
                             </div>
                             <button class="carousel-control-prev" type="button" data-bs-target="#carsCarousel<?= $car['id'] ?>" data-bs-slide="prev">
                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
