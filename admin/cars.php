@@ -74,7 +74,7 @@ if (isset($_GET['action'])) {
                     <a href="add-car.php" class="btn btn-small btn-primary">Add New Car</a>
                 </div>
             </div>
-            <div class="table-responsive">
+            <div class="table-responsive text-nowrap">
                 <table class="table table-hover table-striped tm-table-striped-even mt-3">
                     <thead>
                         <tr class="tm-bg-gray">
@@ -126,7 +126,7 @@ if (isset($_GET['action'])) {
                 </div>
             </div>
             <div class="table-responsive">
-                <table class="table table-hover mt-3">
+                <table class="table table-hover mt-3 text-nowrap">
                     <thead>
                         <tr class="tm-bg-gray">
                             <th scope="col">No.</th>
