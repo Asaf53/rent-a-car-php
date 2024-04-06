@@ -42,7 +42,7 @@ if (isset($_GET['action']) && ($_GET['action'] === 'status') && isset($_GET['typ
                 </div>
             </div>
             <div class="table-responsive">
-                <table class="table align-middle overflow-auto">
+                <table class="table align-middle overflow-scroll" id="dataTable">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
