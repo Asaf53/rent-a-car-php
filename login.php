@@ -27,7 +27,7 @@ if (isset($_POST['login_btn'])) {
                     header('Location: index.php?action=login');
                 }
             } else {
-                $login_errors[] = "Something went wrong!!";
+                $login_errors[] = "Incorrect password. Please try again.";
             }
         }
     }
@@ -36,6 +36,13 @@ if (isset($_POST['login_btn'])) {
 <div class="container w-25 my-5">
     <main class="form-signin w-100 m-auto">
         <form action="<?= $_SERVER['PHP_SELF'] ?>" method="POST">
+            <?php if (count($login_errors) > 0) : ?>
+                <ul class="list-group m-3">
+                    <?php foreach ($login_errors as $error) : ?>
+                        <li class="text-danger"><?= $error ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php endif; ?>
             <h4 class="text-center">Login</h4>
             <div class="form-floating mb-2">
                 <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" autocomplete="false">
