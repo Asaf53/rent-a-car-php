@@ -12,6 +12,16 @@ if (isset($_GET['pickupDate'], $_GET['returnDate'], $_GET['pickupLocation'], $_G
     $returnLocation = $_GET['returnLocation'];
     if (!empty($pickUpDate) && !empty($returnDate) && !empty($pickupLocation) && !empty($returnLocation)) {
         $cars = getAvailableCars("$pickUpDate", "$returnDate");
+
+        foreach ($cars as $key => $car) {
+            $carImages = [];
+            $sql = "SELECT * FROM `cars_images` WHERE `car_id` = ?";
+            $stm = $pdo->prepare($sql);
+            $stm->execute([$car['id']]);
+            $carImages = $stm->fetchAll(PDO::FETCH_ASSOC);
+            $cars[$key]['images'] = $carImages;
+        }
+        
         if (empty($cars)) {
             $errors[] = "No cars available for the specified dates and locations.";
         }
@@ -20,7 +30,7 @@ if (isset($_GET['pickupDate'], $_GET['returnDate'], $_GET['pickupLocation'], $_G
         $errors[] = "Required fields are empty.";
     }
 }
-// Check if form has been submitted
+
 if (isset($_POST['book_btn'])) {
     $pickup_date = $_POST['pickup_date'];
     $return_date = $_POST['return_date'];
@@ -53,7 +63,27 @@ if (isset($_POST['book_btn'])) {
                 <div class="d-flex flex-column flex-md-row border p-3 mb-3">
                     <div class="col-md-4">
                         <h5><?= $car['make'] . " " . $car['model'] ?></h5>
-                        <img src="assets/img/cars/3-1.jpg" class="w-100" alt="">
+                        <div id="carsCarousel<?= $car['id'] ?>" class="carousel slide">
+                            <div class="carousel-inner">
+                                <?php if (count($car['images']) > 0) : ?>
+                                    <?php foreach ($car['images'] as $index => $image) : ?>
+                                        <div class="carousel-item <?= ($index === 0) ? 'active' : '' ?>">
+                                            <img src="assets/img/cars/<?= $image['images'] ?>" class="d-block w-100" alt="cars-<?= $car['id'] ?>">
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php else : ?>
+                                    <img src="assets/img/cars/noimage.jpg" class="d-block w-100" alt="cars-noimage">
+                                <?php endif; ?>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carsCarousel<?= $car['id'] ?>" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carsCarousel<?= $car['id'] ?>" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
                         <div class="d-flex align-items-center">
                             <span class="me-2"><img src="assets/img/icon/doors.svg" class="me-1" alt="door icon"><?= $car['doors'] ?></span> |
                             <span class="me-2 ms-2"><img src="assets/img/icon/seat.svg" class="me-1" alt="seat icon"><?= $car['seats'] ?></span> |
