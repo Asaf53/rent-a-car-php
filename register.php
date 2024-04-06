@@ -21,8 +21,9 @@ if (isset($_POST['register_btn'])) {
         $register_errors[] = "Passwords do not match.";
     }
 
-    if (strlen($password) < 8) {
-        $register_errors[] = "Passwords is less than 8 characters!!!";
+    $pattern = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/';
+    if (!preg_match($pattern, $password)) {
+        $register_errors[] = "At least one uppercase letter <br> At least one lowercase letter<br> At least one digit <br> At least one special character <br> Minimum length 8 characters";
     }
 
     if (count($register_errors) === 0) {
