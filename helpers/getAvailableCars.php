@@ -7,10 +7,11 @@ function getAvailableCars($pickUpDate, $returnDate)
     global $pdo;
 
     $sql = "SELECT * FROM cars 
-    WHERE cars.id NOT IN (
-    SELECT rental.car_id FROM rental 
+    WHERE cars.id 
+    NOT IN ( SELECT rental.car_id FROM rental 
     WHERE 
-    (rental.start_date BETWEEN :pickUpDate AND :returnDate) OR
+    (rental.start_date BETWEEN :pickUpDate AND :returnDate) 
+    OR
     (rental.end_date BETWEEN :pickUpDate AND :returnDate))";
 
     $stmt = $pdo->prepare($sql);
