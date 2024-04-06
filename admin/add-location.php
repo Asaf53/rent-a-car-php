@@ -13,7 +13,7 @@ if (isset($_POST['add_btn'])) {
         $sql = "INSERT INTO `locations` (`name`, `address`) VALUES (?, ?)";
         $stm = $pdo->prepare($sql);
         if ($stm->execute([$location, $address])) {
-            header('Location: cars.php?action=add_location');
+            header('Location: cars.php?action=location_add');
         } else {
             $add_location_errors[] = "Something went wrong!!";
         }

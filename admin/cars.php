@@ -52,6 +52,9 @@ if (isset($_GET['action'])) {
         case 'location_edit':
             $alert = 'Location edit successfully';
             break;
+        case 'location_add':
+            $alert = 'Location added successfully';
+            break;
         case 'car_images':
             $alert = 'Car images uploaded successfully';
             break;
