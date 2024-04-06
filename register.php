@@ -21,6 +21,10 @@ if (isset($_POST['register_btn'])) {
         $register_errors[] = "Passwords do not match.";
     }
 
+    if (strlen($password) < 8) {
+        $register_errors[] = "Passwords is less than 8 characters!!!";
+    }
+
     if (count($register_errors) === 0) {
         $sql = "INSERT INTO `users` (`fullname`, `email`, `phone`, `password`) VALUES (?, ?, ?, ?)";
         $stm = $pdo->prepare($sql);
