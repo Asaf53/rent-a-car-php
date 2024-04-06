@@ -33,7 +33,7 @@ if (isset($_POST['book_btn'])) {
     $sql = "INSERT INTO `rental` (`user_id`, `car_id`, `pickup_location_id`, `return_location_id`, `start_date`, `end_date`, `total_cost`, `rental_number`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $stm = $pdo->prepare($sql);
     if ($stm->execute([$_SESSION['user_id'], $car_id, $pickup_location, $return_location, $pickup_date, $return_date, $total_cost, $rental_number])) {
-        header("Location: index.php?action=rental");
+        header("Location: profile.php?action=rental&rental_number=$rental_number");
     } else {
         $errors[] = "Something went wrong!!";
     }

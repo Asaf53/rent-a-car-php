@@ -1,7 +1,75 @@
-<?php include_once('includes/header.php') ?>
+<?php include_once('includes/header.php');
+
+$bookings = [];
+$sql_bookings = "SELECT *, rental.id as rent_id FROM `rental` 
+INNER JOIN `users` ON `rental`.`user_id` = `users`.`id` 
+INNER JOIN `cars` ON `rental`.`car_id` = `cars`.`id`
+INNER JOIN `locations` AS `pickup_location` ON `rental`.`pickup_location_id` = `pickup_location`.`id`
+INNER JOIN `locations` AS `return_location` ON `rental`.`return_location_id` = `return_location`.`id`;";
+$stm_bookings = $pdo->prepare($sql_bookings);
+$stm_bookings->execute();
+$bookings = $stm_bookings->fetchAll(PDO::FETCH_ASSOC);
+
+if (isset($_GET['action']) && ($_GET['action'] === 'delete') && isset($_GET['type']) && ($_GET['type'] === 'rent')) {
+    if (isset($_GET['rent_id'])) {
+        $rent_id = $_GET['rent_id'];
+        $sql_delete_rent = "DELETE FROM `rental` WHERE id = ?";
+        $stm_delete_rent = $pdo->prepare($sql_delete_rent);
+        if ($stm_delete_rent->execute([$rent_id])) {
+            header('Location: index.php');
+        }
+    }
+}
+?>
 <!-- row -->
 <div class="row tm-content-row tm-mt-big">
-    <div class="tm-col tm-col-big">
+    <div class="col-12 tm-md-12 tm-sm-12 tm-col">
+        <div class="bg-white tm-block h-100">
+            <div class="row">
+                <div class="col-8">
+                    <h2 class="tm-block-title d-inline-block">Bookings List</h2>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table align-middle table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Book Number</th>
+                            <th scope="col">Car</th>
+                            <th scope="col">Pick Up Location</th>
+                            <th scope="col">Return Location</th>
+                            <th scope="col">Pick Up Date</th>
+                            <th scope="col">Return Date</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Created at</th>
+                            <th scope="col" class="text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $i = 1;
+                        foreach ($bookings as $book) : ?>
+                            <tr>
+                                <td><?= $i++ ?></td>
+                                <td class="fw-bold"><?= $book['rental_number'] ?></td>
+                                <td><?= $book['make'] . " " . $book['model'] ?></td>
+                                <td><?= $book['name'] . " - " . $book['address'] ?></td>
+                                <td><?= $book['name'] . " - " . $book['address'] ?></td>
+                                <td><?= $book['start_date'] ?></td>
+                                <td><?= $book['end_date'] ?></td>
+                                <td><?= $book['total_cost'] ?> &euro;</td>
+                                <td><?= $book['created_at'] ?></td>
+                                <td class="text-center">
+                                    <a href="?action=delete&type=rent&rent_id=<?= $book['rent_id'] ?>"><i class="fas fa-trash-alt tm-trash-icon"></i></a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="tm-col tm-col-big">
         <div class="bg-white tm-block h-100">
             <div class="row">
                 <div class="col-8">
@@ -36,44 +104,8 @@
                 </li>
             </ol>
         </div>
-    </div>
-    <div class="tm-col tm-col-big">
-        <div class="bg-white tm-block h-100">
-            <div class="row">
-                <div class="col-8">
-                    <h2 class="tm-block-title d-inline-block">Top Product List</h2>
-
-                </div>
-                <div class="col-4 text-right">
-                    <a href="products.php" class="tm-link-black">View All</a>
-                </div>
-            </div>
-            <ol class="tm-list-group tm-list-group-alternate-color tm-list-group-pad-big">
-                <li class="tm-list-group-item">
-                    Donec eget libero
-                </li>
-                <li class="tm-list-group-item">
-                    Nunc luctus suscipit elementum
-                </li>
-                <li class="tm-list-group-item">
-                    Maecenas eu justo maximus
-                </li>
-                <li class="tm-list-group-item">
-                    Pellentesque auctor urna nunc
-                </li>
-                <li class="tm-list-group-item">
-                    Sit amet aliquam lorem efficitur
-                </li>
-                <li class="tm-list-group-item">
-                    Pellentesque auctor urna nunc
-                </li>
-                <li class="tm-list-group-item">
-                    Sit amet aliquam lorem efficitur
-                </li>
-            </ol>
-        </div>
-    </div>
-    <div class="tm-col tm-col-small">
+    </div> -->
+    <!-- <div class="tm-col tm-col-small">
         <div class="bg-white tm-block h-100">
             <h2 class="tm-block-title">Upcoming Tasks</h2>
             <ol class="tm-list-group">
@@ -91,9 +123,7 @@
                 <li class="tm-list-group-item">Company trip</li>
             </ol>
         </div>
-    </div>
-</div>
-</div>
+    </div> -->
 </div>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>

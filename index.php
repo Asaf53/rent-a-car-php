@@ -29,9 +29,6 @@ if (isset($_GET['action'])) {
         case 'login':
             $alert = 'You have successfully logged in.';
             break;
-        case 'rental':
-            $alert = 'Your rental has been confirmed. Thank you for choosing our service.';
-            break;
     }
 }
 ?>
