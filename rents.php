@@ -31,6 +31,11 @@ if (isset($_GET['pickupDate'], $_GET['returnDate'], $_GET['pickupLocation'], $_G
     }
 }
 
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    die();
+}
+
 if (isset($_POST['book_btn'])) {
     $pickup_date = $_POST['pickup_date'];
     $return_date = $_POST['return_date'];
