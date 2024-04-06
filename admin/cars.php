@@ -62,8 +62,11 @@ if (isset($_GET['action'])) {
 }
 ?>
 <?php if (isset($_GET['action'])) : ?>
-    <div class="alert alert-success mt-3" role="alert">
+    <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
         <?= $alert; ?>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
 <?php endif; ?>
 <div class="row tm-content-row tm-mt-big mt-3">

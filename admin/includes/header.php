@@ -8,6 +8,10 @@ if (isset($_GET['action']) && ($_GET['action'] === 'logout')) {
     unset($_SESSION['fullname']);
     header("Location: ../login.php");
 }
+if (!isset($_SESSION['user_id'])) {
+    header('Location: ../login.php');
+    die();
+}
 ?>
 
 <!DOCTYPE html>
