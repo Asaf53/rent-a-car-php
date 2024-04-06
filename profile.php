@@ -46,6 +46,7 @@ if (isset($_GET['action'])) {
                     <th scope="col">Pick Up Date</th>
                     <th scope="col">Return Date</th>
                     <th scope="col">Total</th>
+                    <th scope="col">Status</th>
                     <th scope="col">Created at</th>
                 </tr>
             </thead>
@@ -60,7 +61,22 @@ if (isset($_GET['action'])) {
                         <td><?= $book['name'] . " - " . $book['address'] ?></td>
                         <td><?= $book['start_date'] ?></td>
                         <td><?= $book['end_date'] ?></td>
-                        <td><?= $book['total_cost'] ?> &euro;</td>
+                        <td><?= $book['total_cost'] ?>&euro;</td>
+                        <td>
+                            <?php
+                            switch ($book['status']):
+                                case 'Pending': ?>
+                                    <div>
+                                        <span class="badge text-bg-warning p-2 text-white">Pending</span>
+                                    </div>
+                                <?php break;
+                                case 'Confirmed': ?>
+                                    <div>
+                                        <span class="badge text-bg-success p-2 text-white">Confirmed</span>
+                                    </div>
+                            <?php break;
+                            endswitch; ?>
+                        </td>
                         <td><?= $book['created_at'] ?></td>
                     </tr>
                 <?php endforeach; ?>

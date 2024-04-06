@@ -20,10 +20,21 @@ if (isset($_GET['action']) && ($_GET['action'] === 'delete') && isset($_GET['typ
         }
     }
 }
+
+if (isset($_GET['action']) && ($_GET['action'] === 'status') && isset($_GET['type']) && ($_GET['type'] === 'rent')) {
+    if (isset($_GET['rent_id'])) {
+        $rent_id = $_GET['rent_id'];
+        $sql_update_rent = "UPDATE `rental` SET `status` = 'Confirmed' WHERE id = ?";
+        $stm_update_rent = $pdo->prepare($sql_update_rent);
+        if ($stm_update_rent->execute([$rent_id])) {
+            header('Location: index.php');
+        }
+    }
+}
 ?>
 <!-- row -->
-<div class="row tm-content-row tm-mt-big">
-    <div class="col-12 tm-md-12 tm-sm-12 tm-col">
+<div class="row tm-content-row mt-3">
+    <div class="col-12">
         <div class="bg-white tm-block h-100">
             <div class="row">
                 <div class="col-8">
@@ -31,17 +42,21 @@ if (isset($_GET['action']) && ($_GET['action'] === 'delete') && isset($_GET['typ
                 </div>
             </div>
             <div class="table-responsive">
-                <table class="table align-middle table-hover">
+                <table class="table align-middle overflow-auto">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Book Number</th>
+                            <th scope="col">Customer</th>
+                            <th scope="col">Customer Email</th>
+                            <th scope="col">Customer Phone</th>
                             <th scope="col">Car</th>
                             <th scope="col">Pick Up Location</th>
                             <th scope="col">Return Location</th>
                             <th scope="col">Pick Up Date</th>
                             <th scope="col">Return Date</th>
                             <th scope="col">Total</th>
+                            <th scope="col">Status</th>
                             <th scope="col">Created at</th>
                             <th scope="col" class="text-center">Action</th>
                         </tr>
@@ -51,16 +66,21 @@ if (isset($_GET['action']) && ($_GET['action'] === 'delete') && isset($_GET['typ
                         foreach ($bookings as $book) : ?>
                             <tr>
                                 <td><?= $i++ ?></td>
-                                <td class="fw-bold"><?= $book['rental_number'] ?></td>
+                                <td><?= $book['rental_number'] ?></td>
+                                <td><?= $book['fullname'] ?></td>
+                                <td><?= $book['email'] ?></td>
+                                <td><?= $book['phone'] ?></td>
                                 <td><?= $book['make'] . " " . $book['model'] ?></td>
                                 <td><?= $book['name'] . " - " . $book['address'] ?></td>
                                 <td><?= $book['name'] . " - " . $book['address'] ?></td>
                                 <td><?= $book['start_date'] ?></td>
                                 <td><?= $book['end_date'] ?></td>
-                                <td><?= $book['total_cost'] ?> &euro;</td>
+                                <td><?= $book['total_cost'] ?>&euro;</td>
+                                <td><?= $book['status'] ?></td>
                                 <td><?= $book['created_at'] ?></td>
                                 <td class="text-center">
-                                    <a href="?action=delete&type=rent&rent_id=<?= $book['rent_id'] ?>"><i class="fas fa-trash-alt tm-trash-icon"></i></a>
+                                    <a href="?action=status&type=rent&rent_id=<?= $book['rent_id'] ?>"><i class="fa fa-check text-success"></i></a>
+                                    <a href="?action=delete&type=rent&rent_id=<?= $book['rent_id'] ?>"><i class="fas fa-trash-alt text-danger"></i></a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
