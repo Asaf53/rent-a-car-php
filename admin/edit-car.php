@@ -29,7 +29,7 @@ if (isset($_POST['edit_btn'])) {
     $sql_edit_car = "UPDATE `cars` SET `make` = ?, `model` = ?, `year` = ?, `gearbox` = ?, `doors` = ?, `fuel` = ?, `seats` = ?, `type` = ?, `rental_rate` = ? WHERE id = ?";
     $stm_edit_car = $pdo->prepare($sql_edit_car);
     if ($stm_edit_car->execute([$make, $model, $year, $gearbox, $doors, $fuel, $seats, $type, $rental_rate, $id])) {
-        header('Location: cars.php?action=edit&type=car');
+        header('Location: cars.php?action=car_edit&type=car');
     }
 }
 
