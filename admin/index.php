@@ -41,8 +41,8 @@ if (isset($_GET['action']) && ($_GET['action'] === 'status') && isset($_GET['typ
                     <h2 class="tm-block-title d-inline-block">Bookings List</h2>
                 </div>
             </div>
-            <div class="table-responsive">
-                <table class="table align-middle overflow-scroll" id="dataTable">
+            <div class="table-responsive text-nowrap">
+                <table class="table align-middle overflow-scroll" data-search-align="left" id="table" data-pagination="true" data-toggle="table" data-search="true" data-searchable="true">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -66,7 +66,7 @@ if (isset($_GET['action']) && ($_GET['action'] === 'status') && isset($_GET['typ
                         foreach ($bookings as $book) : ?>
                             <tr>
                                 <td><?= $i++ ?></td>
-                                <td><?= $book['rental_number'] ?></td>
+                                <td><b><?= $book['rental_number'] ?></b></td>
                                 <td><?= $book['fullname'] ?></td>
                                 <td><?= $book['email'] ?></td>
                                 <td><?= $book['phone'] ?></td>
@@ -147,6 +147,7 @@ if (isset($_GET['action']) && ($_GET['action'] === 'status') && isset($_GET['typ
 </div>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.22.4/dist/bootstrap-table.min.js"></script>
 </body>
 
 </html>

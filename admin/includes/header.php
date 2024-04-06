@@ -24,6 +24,7 @@ if (isset($_GET['action']) && ($_GET['action'] === 'logout')) {
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/tooplate.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.22.4/dist/bootstrap-table.min.css">
 </head>
 
 
