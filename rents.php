@@ -32,7 +32,7 @@ if (isset($_GET['pickupDate'], $_GET['returnDate'], $_GET['pickupLocation'], $_G
 }
 
 if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
+    header('Location: login.php?action=rent_login&type=warning');
     die();
 }
 

@@ -30,7 +30,7 @@ if (isset($_POST['register_btn'])) {
         $sql = "INSERT INTO `users` (`fullname`, `email`, `phone`, `password`) VALUES (?, ?, ?, ?)";
         $stm = $pdo->prepare($sql);
         if ($stm->execute([$fullname, $email, $phone, password_hash($password, PASSWORD_BCRYPT)])) {
-            header('Location: login.php?action=register');
+            header('Location: login.php?action=register&type=success');
         } else {
             $register_errors[] = "Something went wrong!!";
         }

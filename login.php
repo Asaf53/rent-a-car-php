@@ -32,8 +32,26 @@ if (isset($_POST['login_btn'])) {
         }
     }
 }
+
+
+if (isset($_GET['action'])) {
+    switch ($_GET['action']) {
+        case 'register':
+            $alert = 'Thank you for signing up! Please login with your new credentials.';
+            break;
+        case 'rent_login':
+            $alert = 'Please log in to book a car.';
+            break;
+    }
+}
 ?>
 <div class="container w-25 my-5">
+    <?php if (isset($_GET['action'])) : ?>
+        <div class="alert alert-<?= ($_GET['type'] === 'warning') ? 'warning' : 'success'  ?> alert-dismissible fade show mt-3" role="alert">
+            <?= $alert; ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php endif; ?>
     <main class="form-signin w-100 m-auto">
         <form action="<?= $_SERVER['PHP_SELF'] ?>" method="POST">
             <?php if (count($login_errors) > 0) : ?>
