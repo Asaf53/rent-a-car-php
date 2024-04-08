@@ -1,7 +1,12 @@
 <?php include_once('includes/header.php');
 
 $bookings = [];
-$sql_bookings = "SELECT *, rental.id as rent_id FROM `rental` 
+$sql_bookings = "SELECT *, 
+pickup_location.name AS pickup_location_name, 
+pickup_location.address AS pickup_location_address, 
+return_location.name AS return_location_name, 
+return_location.address AS return_location_address, 
+rental.id as rent_id FROM `rental` 
 INNER JOIN `users` ON `rental`.`user_id` = `users`.`id` 
 INNER JOIN `cars` ON `rental`.`car_id` = `cars`.`id`
 INNER JOIN `locations` AS `pickup_location` ON `rental`.`pickup_location_id` = `pickup_location`.`id`
@@ -71,8 +76,8 @@ if (isset($_GET['action']) && ($_GET['action'] === 'status') && isset($_GET['typ
                                 <td><?= $book['email'] ?></td>
                                 <td><?= $book['phone'] ?></td>
                                 <td><?= $book['make'] . " " . $book['model'] ?></td>
-                                <td><?= $book['name'] . " - " . $book['address'] ?></td>
-                                <td><?= $book['name'] . " - " . $book['address'] ?></td>
+                                <td><?= $book['pickup_location_name'] . " " . $book['pickup_location_address'] ?></td>
+                                <td><?= $book['return_location_name'] . " " . $book['return_location_address'] ?></td>
                                 <td><?= $book['start_date'] ?></td>
                                 <td><?= $book['end_date'] ?></td>
                                 <td><?= $book['total_cost'] ?>&euro;</td>

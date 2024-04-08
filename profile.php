@@ -10,11 +10,17 @@ $stm->execute([$user_id]);
 $users = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 $bookings = [];
-$sql_bookings = "SELECT * FROM `rental` 
+$sql_bookings = "SELECT *, 
+pickup_location.name AS pickup_location_name, 
+pickup_location.address AS pickup_location_address, 
+return_location.name AS return_location_name, 
+return_location.address AS return_location_address 
+FROM `rental` 
 INNER JOIN `users` ON `rental`.`user_id` = `users`.`id` 
 INNER JOIN `cars` ON `rental`.`car_id` = `cars`.`id`
 INNER JOIN `locations` AS `pickup_location` ON `rental`.`pickup_location_id` = `pickup_location`.`id`
-INNER JOIN `locations` AS `return_location` ON `rental`.`return_location_id` = `return_location`.`id` WHERE `rental`.`user_id` = ?";
+INNER JOIN `locations` AS `return_location` ON `rental`.`return_location_id` = `return_location`.`id` 
+WHERE `rental`.`user_id` = ?";
 $stm_bookings = $pdo->prepare($sql_bookings);
 $stm_bookings->execute([$user_id]);
 $bookings = $stm_bookings->fetchAll(PDO::FETCH_ASSOC);
@@ -57,8 +63,8 @@ if (isset($_GET['action'])) {
                         <td><?= $i++ ?></td>
                         <td class="fw-bold"><?= $book['rental_number'] ?></td>
                         <td><?= $book['make'] . " " . $book['model'] ?></td>
-                        <td><?= $book['name'] . " - " . $book['address'] ?></td>
-                        <td><?= $book['name'] . " - " . $book['address'] ?></td>
+                        <td><?= $book['pickup_location_name'] . " " . $book['pickup_location_address'] ?></td>
+                        <td><?= $book['return_location_name'] . " " . $book['return_location_address'] ?></td>
                         <td><?= $book['start_date'] ?></td>
                         <td><?= $book['end_date'] ?></td>
                         <td><?= $book['total_cost'] ?>&euro;</td>
