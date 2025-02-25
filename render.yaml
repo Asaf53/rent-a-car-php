@@ -1,0 +1,9 @@
+services:
+  - name: rent-a-car-php
+    type: web
+    runtime: docker
+    plan: free
+    region: oregon
+    envVars:
+      - key: APP_ENV
+        value: production

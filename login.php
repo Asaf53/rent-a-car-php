@@ -6,29 +6,39 @@ if (isset($_POST['login_btn'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
+    // Validate email format
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $login_errors[] = "Please enter a valid email address.";
     }
 
+    // Only proceed if there are no validation errors
     if (count($login_errors) === 0) {
         $sql = "SELECT * FROM `users` WHERE email = ?";
         $stm = $pdo->prepare($sql);
         if ($stm->execute([$email])) {
             $user = $stm->fetch();
-            if (password_verify($password, $user['password'])) {
+
+            // Check if user exists and password is correct
+            if ($user && password_verify($password, $user['password'])) {
+                // Set session variables
                 $_SESSION['is_loggedin'] = true;
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['email'] = $user['email'];
                 $_SESSION['fullname'] = $user['fullname'];
                 $_SESSION['role'] = $user['role'];
+
+                // Redirect based on role
                 if ($user['role'] === 'admin') {
                     header('Location: admin/index.php');
                 } else {
                     header('Location: index.php?action=login');
                 }
+                exit(); // Important to stop script execution after redirect
             } else {
-                $login_errors[] = "Incorrect password. Please try again.";
+                $login_errors[] = "Invalid email or password.";
             }
+        } else {
+            $login_errors[] = "An error occurred. Please try again later.";
         }
     }
 }
