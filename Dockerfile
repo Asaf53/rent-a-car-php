@@ -1,23 +1,33 @@
-# Use official PHP image with Apache
+# Use the official PHP image with Apache
 FROM php:8.2-apache
 
-# Install dependencies for PDO MySQL and other extensions
+# Install necessary extensions, including pdo_mysql
 RUN apt-get update && apt-get install -y \
-    libmysqlclient-dev \
-    && docker-php-ext-install pdo_mysql \
-    && docker-php-ext-enable pdo_mysql
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    libzip-dev \
+    zip \
+    unzip \
+    mariadb-client \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install pdo pdo_mysql gd zip
 
-# Enable Apache mod_rewrite for URL rewriting (if needed)
+# Enable Apache mod_rewrite
 RUN a2enmod rewrite
 
-# Copy project files into the container
-COPY . /var/www/html/
+# Set working directory
+WORKDIR /var/www/html
 
-# Set permissions for the project directory
-RUN chown -R www-data:www-data /var/www/html
+# Copy application files
+COPY . /var/www/html
 
-# Expose port 80 (default for Apache)
+# Set proper permissions
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html
+
+# Expose the default Apache port
 EXPOSE 80
 
-# Start Apache in the foreground
+# Start Apache
 CMD ["apache2-foreground"]
