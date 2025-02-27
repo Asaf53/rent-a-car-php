@@ -1,9 +1,9 @@
 <?php
-$host = 'sql.freedb.tech';
-$port = 3306; // Ensure this is the correct port
-$db = 'freedb_rent-a-car';
-$username = 'freedb_Asafrushiti';
-$password = 'fQ@DpWv9ZG7aF#2';
+$host = getenv('DB_HOST');
+$port = getenv('DB_PORT');
+$db = getenv('DB_NAME');
+$username = getenv('DB_USER');
+$password = getenv('DB_PASS');
 
 $dsn = "mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4";
 

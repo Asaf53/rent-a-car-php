@@ -1,16 +1,19 @@
 <?php
-$host = 'sql.freedb.tech';
-$port = 3306; // Default MySQL port
-$db = 'freedb_rent-a-car';
-$dsn = "mysql:host=$host;port=$port;dbname=$db;";
-$username = 'freedb_Asafrushiti';
-$password = 'fQ@DpWv9ZG7aF#2'; // URL-encoded password
+$host = getenv('DB_HOST');
+$port = getenv('DB_PORT');
+$db = getenv('DB_NAME');
+$username = getenv('DB_USER');
+$password = getenv('DB_PASS');
+
+$dsn = "mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4";
 
 try {
-    $pdo = new PDO($dsn, $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo = new PDO($dsn, $username, $password, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    ]);
     echo "Connected successfully!";
 } catch (PDOException $e) {
     die("Connection failed: " . $e->getMessage());
 }
-
+?>

@@ -11,5 +11,13 @@ services:
     envVars:
       - key: APP_ENV
         value: production
-      - key: DATABASE_URL
-        value: "mysql://freedb_Asafrushiti:fQ@DpWv9ZG7aF#2@sql.freedb.tech:3306/freedb_rent-a-car"  # Add your database URL here
+      - key: DB_HOST
+        value: "sql.freedb.tech"
+      - key: DB_PORT
+        value: "3306"
+      - key: DB_NAME
+        value: "freedb_rent-a-car"
+      - key: DB_USER
+        value: "freedb_Asafrushiti"
+      - key: DB_PASS
+        value: "fQ@DpWv9ZG7aF#2"
