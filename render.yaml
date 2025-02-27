@@ -7,7 +7,14 @@ services:
     buildCommand: |
       docker build -t rent-a-car-php .
     startCommand: |
-      docker run -p 10000:80 rent-a-car-php
+      docker run -p 10000:80 \
+        -e APP_ENV=production \
+        -e DB_HOST=sql.freedb.tech \
+        -e DB_PORT=3306 \
+        -e DB_NAME=freedb_rent-a-car \
+        -e DB_USER=freedb_Asafrushiti \
+        -e DB_PASS=fQ@DpWv9ZG7aF#2 \
+        rent-a-car-php
     envVars:
       - key: APP_ENV
         value: production
