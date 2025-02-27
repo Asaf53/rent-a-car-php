@@ -5,6 +5,12 @@ $db = getenv('DB_NAME') ?: 'freedb_rent-a-car';
 $username = getenv('DB_USER') ?: 'freedb_Asafrushiti';
 $password = getenv('DB_PASS') ?: 'fQ@DpWv9ZG7aF#2';
 
+echo "Host: $host\n";
+echo "Port: $port\n";
+echo "Database: $db\n";
+echo "Username: $username\n";
+echo "Password: $password\n";
+
 $dsn = "mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4";
 
 try {
