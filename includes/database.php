@@ -1,15 +1,9 @@
 <?php
-$host = getenv('DB_HOST') ?: 'sql.freedb.tech'; // Do NOT use 'localhost'
-$port = getenv('DB_PORT') ?: '3306';
-$db = getenv('DB_NAME') ?: 'freedb_rent-a-car';
-$username = getenv('DB_USER') ?: 'freedb_Asafrushiti';
-$password = getenv('DB_PASS') ?: 'fQ@DpWv9ZG7aF#2';
-
-echo "Host: $host\n";
-echo "Port: $port\n";
-echo "Database: $db\n";
-echo "Username: $username\n";
-echo "Password: $password\n";
+$host = '127.0.0.1';
+$port = '3309';
+$db = 'rent-a-car';
+$username = 'root';
+$password = '';
 
 $dsn = "mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4";
 
@@ -18,7 +12,6 @@ try {
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
     ]);
-    echo "Connected successfully!";
 } catch (PDOException $e) {
     die("Connection failed: " . $e->getMessage());
 }
